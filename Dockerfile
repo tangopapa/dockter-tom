@@ -9,6 +9,7 @@ RUN apt-get update && \
     apt-get install -y build-essential \
       bzip2 \
       ca-certificates \
+      apt-transport-https \
       curl \
       gcc \
       git \
@@ -91,3 +92,12 @@ RUN apt-get update && \
     
 # zaproxy
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
+
+# Lynis
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F && \
+    echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99disable-translations && \
+    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list && \
+    apt update && \ 
+    apt install lynis
+
+
