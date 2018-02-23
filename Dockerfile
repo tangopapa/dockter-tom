@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 MAINTAINER tom@frogtownroad.com
-# Based on guantlt-docker
+# Many thanks to guantlt-docker
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
@@ -32,6 +32,7 @@ RUN apt-get update && \
 # Install Gauntlt
 RUN gem install ffi -v 1.9.18
 RUN gem install gauntlt --no-rdoc --no-ri
+
 # Install Attack tools
 WORKDIR /opt
 
@@ -100,4 +101,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
     apt update && \ 
     apt install lynis
 
+# Install reporting tools
 
+
+#  Install certificates

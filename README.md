@@ -1,2 +1,2 @@
-# docker-tom
+# dockter-tom
 A modular vulnerability scanner
