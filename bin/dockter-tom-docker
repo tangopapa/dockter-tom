@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# usage:
+# dockter-tom-docker --help
+# dockter-tom-docker ./path/to/attacks --tags @your_tag
+
+docker run -t --rm=true -v $(pwd):/working -w /working dockter-tom $@
