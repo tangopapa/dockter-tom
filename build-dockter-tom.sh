@@ -2,4 +2,4 @@
 
 set -e
 
-docker build -t gauntlt .
+docker build -t dockter-tom .
