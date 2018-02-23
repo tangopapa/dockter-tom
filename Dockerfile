@@ -59,21 +59,6 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
 WORKDIR /opt
 ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
-# dirb
-RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
-    tar xvfz dirb222.tar.gz && \
-    cd dirb222 && \
-    chmod 755 ./configure && \
-    ./configure && \
-    make && \
-    ln -s /opt/dirb222/dirb /usr/local/bin/dirb
-
-ENV DIRB_WORDLISTS /opt/dirb222/wordlists
-
-# nmap
-RUN apt-get update && \
-    apt-get install -y nmap && \
-    rm -rf /var/lib/apt/lists/*
 
 # dirb
 RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
@@ -90,18 +75,23 @@ ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 RUN apt-get update && \
     apt-get install -y nmap && \
     rm -rf /var/lib/apt/lists/*
-    
+
 # zaproxy
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
 
 # Lynis
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F && \
-    echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99disable-translations && \
-    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F > && \
+    echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations && \
+    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list && \
     apt update && \ 
     apt install lynis
 
-# Install reporting tools
+#  Add nodejs
 
+#  Add vue.js
+
+#  Static Code Analysis
+
+# Install reporting tools
 
 #  Install certificates
