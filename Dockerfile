@@ -85,6 +85,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
     echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list && \
     apt update && \ 
     apt install lynis
+    rm -rf /var/lib/apt/lists/*
 
 #RUN chmod 755 ${PWD} *
 
@@ -152,8 +153,10 @@ RUN set -ex \
 
 #  Static Code Analysis
 
-# Install reporting tools
+#  Install reporting tools
 
+#  Connect to elk containher
+# docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 #  Install certificates
 
 VOLUME ["/opt/tp"]
