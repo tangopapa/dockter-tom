@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  This file is the first command in Jenkins pipeline - sets bash debug mode & kicks container dockter-tom container build
+#  This file is the first command in Jenkins pipeline - sets bash debug mode & kicks off dockter-tom container build
 
 set -e
 
