@@ -2,7 +2,6 @@ pipeline {
   agent {
     docker {
       image 'dockter-tom'
-      args '-p 3000:3000'
     }
     
   }
