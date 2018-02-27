@@ -4,4 +4,5 @@
 
 set -e
 
-docker build .
+docker build -t dockter-tom .
+ 
