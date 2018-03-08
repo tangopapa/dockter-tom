@@ -96,7 +96,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
 #  Install reporting tools
 
 #  Connect to elk containher
-# docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
+#  docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 #  Install certificates
 
-VOLUME ["/opt/tp"]
+#  VOLUME ["/opt/tp"]
