@@ -85,7 +85,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
     echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list && \
     apt update && \ 
     apt install lynis
-    rm -rf /var/lib/apt/lists/*
+#    rm -rf /var/lib/apt/lists/*
 
 #RUN chmod 755 ${PWD} *
 
