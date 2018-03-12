@@ -8,28 +8,28 @@ RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
-RUN apt-get update
+#RUN apt-get update
 RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
-RUN apt-get build-essential                                                     \
-      bzip2                                                                     \
-      ca-certificates                                                           \
-      apt-transport-https                                                       \
-      curl                                                                      \
-      gcc                                                                       \
-      git                                                                       \
-      libcurl3                                                                  \
-      libcurl4-openssl-dev                                                      \
-      zlib1g-dev                                                                \
-      libfontconfig                                                             \
-      libxml2-dev                                                               \
-      libxslt1-dev                                                              \
-      make                                                                      \
-      python-pip                                                                \
-      python2.7                                                                 \
-      python2.7-dev                                                             \
-      ruby                                                                      \
-      ruby-dev                                                                  \
-      ruby-bundler                                                           && \
+RUN apt-get build-essential \
+      bzip2 \
+      ca-certificates \
+      apt-transport-https \
+      curl \
+      gcc \
+      git \
+      libcurl3 \
+      libcurl4-openssl-dev \
+      zlib1g-dev \
+      libfontconfig \
+      libxml2-dev \
+      libxslt1-dev \
+      make \
+      python-pip \
+      python2.7 \
+      python2.7-dev \
+      ruby \
+      ruby-dev \
+      ruby-bundler && \
       rm -rf /var/lib/apt/lists/*
 
 # Install Gauntlt
