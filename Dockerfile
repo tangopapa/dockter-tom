@@ -120,8 +120,8 @@ RUN wget -O /tmp/current.txt ${version_url}                                 && \
     mkdir /report                                                           && \
     chown -R ${user}:${user} /report                                        && \
     apt-get remove --purge -y wget                                          && \
-    apt-get autoremove -y                                                   && \
-    rm -rf /var/lib/apt/lists/* /tmp/*
+    apt-get autoremove -y                                                   
+   # rm -rf /var/lib/apt/lists/* /tmp/*
  
 USER ${user}
 VOLUME ["/src" "/usr/share/dependency-check/data" "/report"]
