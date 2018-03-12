@@ -102,6 +102,37 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
     apt install lynis
 #    rm -rf /var/lib/apt/lists/*
 
+
+# Install OWASP Dependency Check
+
+ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
+ENV download_url=https://dl.bintray.com/jeremy-long/owasp
+
+RUN apt-get install -y --no-install-recommends wget ruby mono-runtime       && \
+RUN wget -O /tmp/current.txt ${version_url}                                 && \
+    version=$(cat /tmp/current.txt)                                         && \
+    file="dependency-check-${version}-release.zip"                          && \
+    wget "$download_url/$file"                                              && \
+    unzip ${file}                                                           && \
+    rm ${file}                                                              && \
+    mv dependency-check /usr/share/                                         && \
+    chown -R ${user}:${user} /usr/share/dependency-check                    && \
+    mkdir /report                                                           && \
+    chown -R ${user}:${user} /report                                        && \
+    apt-get remove --purge -y wget                                          && \
+    apt-get autoremove -y                                                   && \
+    rm -rf /var/lib/apt/lists/* /tmp/*
+ 
+USER ${user}
+VOLUME ["/src" "/usr/share/dependency-check/data" "/report"]
+WORKDIR /src
+
+CMD ["--help"]
+ENTRYPOINT ["/usr/share/dependency-check/bin/dependency-check.sh"]
+
+
+
+
 #RUN chmod 755 ${PWD} *
 
 
