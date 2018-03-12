@@ -8,9 +8,9 @@ RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
-#RUN apt-get update
+RUN apt-get update
 RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
-RUN apt-get build-essential \
+RUN apt-get install -y build-essential \
       bzip2 \
       ca-certificates \
       apt-transport-https \
