@@ -3,7 +3,7 @@ MAINTAINER tom@frogtownroad.com
 # Many thanks to guantlt-docker
 
 ENV user=dockter-tom
-RUN groupadd -r ${user} && useradd -r -g ${user}
+RUN useradd -r -g -l -M -U ${user}
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
