@@ -114,10 +114,11 @@ RUN wget -O /tmp/current.txt ${version_url}                                 && \
     wget "$download_url/$file"                                              && \
     unzip ${file}                                                           && \
     rm ${file}                                                              && \
-    mv dependency-check /usr/share/                                         && \
-    chown -R ${user}:${user} /usr/share/dependency-check                    && \
-    mkdir /report                                                           && \
-    chown -R ${user}:${user} /report                                        
+    mkdir -p /opt/depcheck                                                  && \
+    mv dependency-check /opt/depcheck                                       && \
+    chown -R ${user}:${user} /opt/depcheck/dependency-check                 && \
+    mkdir -p /opt/depcheck/report                                           && \
+    chown -R ${user}:${user} /opt/depcheck/report                                        
    # apt-get remove --purge -y wget                                         && \
    # apt-get autoremove -y                                                   
    # rm -rf /var/lib/apt/lists/* /tmp/*
