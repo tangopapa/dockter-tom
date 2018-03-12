@@ -2,6 +2,9 @@ FROM debian:stretch-slim
 MAINTAINER tom@frogtownroad.com
 # Many thanks to guantlt-docker
 
+ENV user=dockter-tom
+RUN useradd -ms /bin/bash ${user}   
+
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
@@ -27,22 +30,60 @@ RUN apt-get update && \
       ruby \
       ruby-dev \
       ruby-bundler && \
-    rm -rf /var/lib/apt/lists/*
+      rm -rf /var/lib/apt/lists/*
 
 # Install Gauntlt
 RUN gem install ffi -v 1.9.18
 RUN gem install gauntlt --no-rdoc --no-ri
+RUN gem install bundle-audit 
+RUN gem cleanup
 
 # Install Attack tools
 WORKDIR /opt
 
-# arachni
+#  Static Code Analysis
+
+# Install Brakeman - Ruby-on-rails SAST tool w/ Threadfix integration
+# To run: brakeman -q /path/to/application -o output.json -o output
+RUN gem install brakeman
+
+# Install OWASP Dependency Check
+
+ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
+ENV download_url=https://dl.bintray.com/jeremy-long/owasp
+
+RUN apt-get install -y --no-install-recommends wget ruby mono-runtime       && \
+RUN wget -O /tmp/current.txt ${version_url}                                 && \
+    version=$(cat /tmp/current.txt)                                         && \
+    file="dependency-check-${version}-release.zip"                          && \
+    wget "$download_url/$file"                                              && \
+    unzip ${file}                                                           && \
+    rm ${file}                                                              && \
+    mv dependency-check /usr/share/                                         && \
+    chown -R ${user}:${user} /usr/share/dependency-check                    && \
+    mkdir /report                                                           && \
+    chown -R ${user}:${user} /report                                        && \
+    apt-get remove --purge -y wget                                          && \
+    apt-get autoremove -y                                                   && \
+    rm -rf /var/lib/apt/lists/* /tmp/*
+ 
+USER ${user}
+VOLUME ["/src" "/usr/share/dependency-check/data" "/report"]
+WORKDIR /src
+
+CMD ["--help"]
+ENTRYPOINT ["/usr/share/dependency-check/bin/dependency-check.sh"]
+
+
+# Dynamic Code Analysis
+
+# Install Arachni
 RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
     tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
     mv ${ARACHNI_VERSION} /usr/local && \
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
-# Nikto
+# Install Nikto
 RUN apt-get update && \
     apt-get install -y libtimedate-perl \
       libnet-ssleay-perl && \
@@ -55,12 +96,12 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
     chmod +x nikto.pl && \
     ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto
 
-# sqlmap
+# Install sqlmap
 WORKDIR /opt
 ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
-# dirb
+# Install dirb
 RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
     tar xvfz dirb222.tar.gz && \
     cd dirb222 && \
@@ -71,15 +112,15 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 
 ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
-# nmap
+# Install nmap
 RUN apt-get update && \
     apt-get install -y nmap && \
     rm -rf /var/lib/apt/lists/*
 
-# zaproxy
+# Install zaproxy
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
 
-# Lynis
+# Install Lynis
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F && \
     echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations && \
     echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list && \
@@ -89,9 +130,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
 
 #RUN chmod 755 ${PWD} *
 
-#  Add vue.js
 
-#  Static Code Analysis
 
 #  Install reporting tools
 
