@@ -4,5 +4,5 @@
 
 set -e
 
-docker build -t --no-cache dockter-tom .
+docker build -t dockter-tom .
  
