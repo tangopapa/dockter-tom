@@ -3,33 +3,34 @@ MAINTAINER tom@frogtownroad.com
 # Many thanks to guantlt-docker
 
 ENV user=dockter-tom
-RUN useradd -ms /bin/bash ${user}   
+RUN groupadd -r ${user} && useradd -r -g ${user}  
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
-RUN apt-get update && \
-    apt-get install -y build-essential \
-      bzip2 \
-      ca-certificates \
-      apt-transport-https \
-      curl \
-      gcc \
-      git \
-      libcurl3 \
-      libcurl4-openssl-dev \
-      wget \
-      zlib1g-dev \
-      libfontconfig \
-      libxml2-dev \
-      libxslt1-dev \
-      make \
-      python-pip \
-      python2.7 \
-      python2.7-dev \
-      ruby \
-      ruby-dev \
-      ruby-bundler && \
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends wget ruby mono-runtime        && \ 
+      build-essential                                                           \
+      bzip2                                                                     \
+      ca-certificates                                                           \
+      apt-transport-https                                                       \
+      curl                                                                      \
+      gcc                                                                       \
+      git                                                                       \
+      libcurl3                                                                  \
+      libcurl4-openssl-dev                                                      \
+      wget                                                                      \
+      zlib1g-dev                                                                \
+      libfontconfig                                                             \
+      libxml2-dev                                                               \
+      libxslt1-dev                                                              \
+      make                                                                      \
+      python-pip                                                                \
+      python2.7                                                                 \
+      python2.7-dev                                                             \
+      ruby                                                                      \
+      ruby-dev                                                                  \
+      ruby-bundler                                                           && \
       rm -rf /var/lib/apt/lists/*
 
 # Install Gauntlt
@@ -108,7 +109,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
 ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
 ENV download_url=https://dl.bintray.com/jeremy-long/owasp
 
-RUN apt-get install -y --no-install-recommends wget ruby mono-runtime       && \
 RUN wget -O /tmp/current.txt ${version_url}                                 && \
     version=$(cat /tmp/current.txt)                                         && \
     file="dependency-check-${version}-release.zip"                          && \
@@ -119,7 +119,7 @@ RUN wget -O /tmp/current.txt ${version_url}                                 && \
     chown -R ${user}:${user} /usr/share/dependency-check                    && \
     mkdir /report                                                           && \
     chown -R ${user}:${user} /report                                        
-   # apt-get remove --purge -y wget                                          && \
+   # apt-get remove --purge -y wget                                         && \
    # apt-get autoremove -y                                                   
    # rm -rf /var/lib/apt/lists/* /tmp/*
  
