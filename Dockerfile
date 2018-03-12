@@ -58,16 +58,16 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 # Install Nikto
-RUN apt-get update && \
-    apt-get install -y libtimedate-perl \
-      libnet-ssleay-perl && \
+RUN apt-get update                                              && \
+    apt-get install -y libtimedate-perl                            \
+      libnet-ssleay-perl                                        && \
     rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
-    cd nikto/program && \
-    echo "EXECDIR=/opt/nikto/program" >> nikto.conf && \
-    ln -s /opt/nikto/program/nikto.conf /etc/nikto.conf && \
-    chmod +x nikto.pl && \
+RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
+    cd nikto/program                                            && \
+    echo "EXECDIR=/opt/nikto/program" >> nikto.conf             && \
+    ln -s /opt/nikto/program/nikto.conf /etc/nikto.conf         && \
+    chmod +x nikto.pl                                           && \
     ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto
 
 # Install sqlmap
@@ -76,31 +76,31 @@ ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 # Install dirb
-RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
-    tar xvfz dirb222.tar.gz && \
-    cd dirb222 && \
-    chmod 755 ./configure && \
-    ./configure && \
-    make && \
+RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz    && \
+    tar xvfz dirb222.tar.gz                                                         && \
+    cd dirb222                                                                      && \
+    chmod 755 ./configure                                                           && \
+    ./configure                                                                     && \
+    make                                                                            && \
     ln -s /opt/dirb222/dirb /usr/local/bin/dirb
 
 ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
 # Install nmap
-RUN apt-get update && \
-    apt-get install -y nmap && \
+RUN apt-get update                  && \
+    apt-get install -y nmap         && \
     rm -rf /var/lib/apt/lists/*
 
 # Install zaproxy
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
 
 # Install Lynis
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F && \
-    echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations && \
-    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list && \
-    apt update && \ 
-    apt install lynis
-#    rm -rf /var/lib/apt/lists/*
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F                           && \
+    echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations                                          && \
+    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list   && \
+    apt update                                                                                                                  && \ 
+    apt install lynis                                                                                                           && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # Install OWASP Dependency Check
@@ -118,9 +118,9 @@ RUN wget -O /tmp/current.txt ${version_url}                                 && \
     mv dependency-check /usr/share/                                         && \
     chown -R ${user}:${user} /usr/share/dependency-check                    && \
     mkdir /report                                                           && \
-    chown -R ${user}:${user} /report                                        && \
-    apt-get remove --purge -y wget                                          && \
-    apt-get autoremove -y                                                   
+    chown -R ${user}:${user} /report                                        
+   # apt-get remove --purge -y wget                                          && \
+   # apt-get autoremove -y                                                   
    # rm -rf /var/lib/apt/lists/* /tmp/*
  
 USER ${user}
@@ -129,9 +129,6 @@ WORKDIR /src
 
 CMD ["--help"]
 ENTRYPOINT ["/usr/share/dependency-check/bin/dependency-check.sh"]
-
-
-
 
 #RUN chmod 755 ${PWD} *
 
