@@ -120,7 +120,7 @@ mkdir -p /opt/depcheck                              && \
 mv dependency-check /opt/depcheck                   && \                    
 chown -R ${user}:${user} /opt/depcheck/dependency-check   && \              
 mkdir -p /opt/depcheck/report                       && \                     
-chown -R ${user}:${user} /opt/depcheck/report       && \                               
+chown -R ${user}:${user} /opt/depcheck/report                                     
 RUN apt-get remove --purge -y wget                      
 RUN apt-get autoremove -y                                                 
 RUN rm -rf /var/lib/apt/lists/* /tmp/*                  
