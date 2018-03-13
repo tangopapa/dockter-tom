@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 MAINTAINER tom@frogtownroad.com
-# Many thanks to guantlt-docker
+# thanks to guantlt-docker
 
 ENV user=dockter-tom
 RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user} 
@@ -59,7 +59,7 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
 
 # Install Nikto
 RUN apt-get update                                              && \
-    apt-get install -y libtimedate-perl                            \
+    apt-get install -y libtimedate-perl \
       libnet-ssleay-perl                                        && \
     rm -rf /var/lib/apt/lists/*
 
