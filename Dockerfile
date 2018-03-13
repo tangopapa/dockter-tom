@@ -107,20 +107,20 @@ RUN apt-get install -y unzip                 && \
 # Install OWASP Dependency Check
 
 ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
-ENV download_url=https://dl.bintray.com/jeremy-long/owasp
+ENV download_url=https://dl.bintray.com/jeremy-long/owasp 
 
 
-RUN wget -O /tmp/current.txt ${version_url}                                 
-RUN version=$(cat /tmp/current.txt)                                         
-RUN file="dependency-check-${version}-release.zip"                          
-RUN wget "$download_url/$file"                                              
-RUN unzip ${file}                                                           
-RUN rm -f ${file}                                                              
-RUN mkdir -p /opt/depcheck                                                  
-RUN mv /tmp/dependency-check /opt/depcheck/                                       
-RUN chown -R ${user}:${user} /opt/depcheck/dependency-check                 
-RUN mkdir -p /opt/depcheck/report                                           
-RUN chown -R ${user}:${user} /opt/depcheck/report                                        
+RUN wget -O /tmp/current.txt ${version_url}         && \                         
+version=$(cat /tmp/current.txt)                     && \                               
+file="dependency-check-${version}-release.zip"      && \                    
+wget "$download_url/$file"                          && \                     
+unzip ${file}                                       && \                    
+rm -f ${file}                                       && \                           
+mkdir -p /opt/depcheck                              && \                           
+mv dependency-check /opt/depcheck                   && \                    
+chown -R ${user}:${user} /opt/depcheck/dependency-check   && \              
+mkdir -p /opt/depcheck/report                       && \                     
+chown -R ${user}:${user} /opt/depcheck/report                                        
    # apt-get remove --purge -y wget                                         && \
    # apt-get autoremove -y                                                   
    # rm -rf /var/lib/apt/lists/* /tmp/*
