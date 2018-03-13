@@ -115,7 +115,7 @@ RUN version=$(cat /tmp/current.txt)
 RUN file="dependency-check-${version}-release.zip"                          
 RUN wget "$download_url/$file"                                              
 RUN unzip ${file}                                                           
-RUN rm ${file}                                                              
+RUN rm -f ${file}                                                              
 RUN mkdir -p /opt/depcheck                                                  
 RUN mv dependency-check /opt/depcheck                                       
 RUN chown -R ${user}:${user} /opt/depcheck/dependency-check                 
