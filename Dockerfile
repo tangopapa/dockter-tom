@@ -117,7 +117,7 @@ RUN wget "$download_url/$file"
 RUN unzip ${file}                                                           
 RUN rm -f ${file}                                                              
 RUN mkdir -p /opt/depcheck                                                  
-RUN mv dependency-check /opt/depcheck                                       
+RUN mv /tmp/dependency-check /opt/depcheck/                                       
 RUN chown -R ${user}:${user} /opt/depcheck/dependency-check                 
 RUN mkdir -p /opt/depcheck/report                                           
 RUN chown -R ${user}:${user} /opt/depcheck/report                                        
