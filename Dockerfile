@@ -29,6 +29,9 @@ RUN apt-get install -y build-essential \
       python2.7-dev \
       ruby \
       ruby-dev \
+      libtimedate-perl \
+      libnet-ssleay-perl \
+      nmap \
       ruby-bundler && \
       rm -rf /var/lib/apt/lists/*
 
@@ -58,11 +61,6 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 # Install Nikto
-#   apt-get update                                              && \
-RUN apt-get install -y libtimedate-perl \
-      libnet-ssleay-perl                                        && \
-    rm -rf /var/lib/apt/lists/*
-
 RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
     cd nikto/program                                            && \
     echo "EXECDIR=/opt/nikto/program" >> nikto.conf             && \
@@ -87,9 +85,8 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
 # Install nmap
-#   apt-get update                  && \
-RUN apt-get install -y nmap         && \
-    rm -rf /var/lib/apt/lists/*
+# Done above in main apt package pull
+
 
 # Install zaproxy
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
