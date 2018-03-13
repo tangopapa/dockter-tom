@@ -98,9 +98,8 @@ RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F                           && \
     echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations                                          && \
     echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list   
-#RUN apt update
-RUN apt-get install -y unzip                                                                                                    && \                                   && \ 
-    apt install lynis                                                                                                           && \
+RUN apt update                                                                                                    && \     
+    apt install lynis                                                                                             && \                                                                                   
     rm -rf /var/lib/apt/lists/*
 
 
@@ -109,6 +108,7 @@ RUN apt-get install -y unzip                                                    
 ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
 ENV download_url=https://dl.bintray.com/jeremy-long/owasp
 
+RUN apt-get install -y unzip
 RUN wget -O /tmp/current.txt ${version_url}                                 
 RUN version=$(cat /tmp/current.txt)                                         
 RUN file="dependency-check-${version}-release.zip"                          
