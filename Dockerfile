@@ -99,6 +99,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01
     echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations                                          && \
     echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list   
 RUN apt update 
+# move unzip to catalog of apt-get packages above
 RUN apt-get install -y unzip                 && \                                                                                      
     apt install lynis                        && \                                                                                                                                                           
     rm -rf /var/lib/apt/lists/*
@@ -108,7 +109,6 @@ RUN apt-get install -y unzip                 && \
 
 ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
 ENV download_url=https://dl.bintray.com/jeremy-long/owasp 
-
 
 RUN wget -O /tmp/current.txt ${version_url}         && \                         
 version=$(cat /tmp/current.txt)                     && \                               
@@ -120,17 +120,17 @@ mkdir -p /opt/depcheck                              && \
 mv dependency-check /opt/depcheck                   && \                    
 chown -R ${user}:${user} /opt/depcheck/dependency-check   && \              
 mkdir -p /opt/depcheck/report                       && \                     
-chown -R ${user}:${user} /opt/depcheck/report                                        
-   # apt-get remove --purge -y wget                                         && \
-   # apt-get autoremove -y                                                   
-   # rm -rf /var/lib/apt/lists/* /tmp/*
+chown -R ${user}:${user} /opt/depcheck/report       && \                                 
+apt-get remove --purge -y wget                      && \
+apt-get autoremove -y                               && \                    
+rm -rf /var/lib/apt/lists/* /tmp/*                  && \
  
 USER ${user}
-VOLUME ["/src" "/usr/share/dependency-check/data" "/report"]
-WORKDIR /src
+VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
+WORKDIR /opt/depcheck
 
 CMD ["--help"]
-ENTRYPOINT ["/usr/share/dependency-check/bin/dependency-check.sh"]
+ENTRYPOINT ["/opt/depcheck/dependency-check/bin/dependency-check.sh"]
 
 #RUN chmod 755 ${PWD} *
 
