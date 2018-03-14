@@ -28,7 +28,7 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-         docker.withRegistry('http://registry.sysmango.net:5000/v2', 'nexus-creds') {
+         docker.withRegistry("${env.REGISTRYURL}", 'nexus-creds') {
             app.push("latest")
             app.push("${env.BUILD_NUMBER}")
         }
