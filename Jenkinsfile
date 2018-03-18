@@ -1,4 +1,6 @@
 #!/usr/bin/env groovy
+
+
 node {
     // Clean workspace before doing anything
     deleteDir()
@@ -18,7 +20,7 @@ node {
                 sh "echo 'shell scripts to run unit tests...'"
             },
             'integration': {
-                sh "echo 'shell scripts to run integration tests...'"
+                sh "echo 'shell script to run integration tests...'"
             }
         }
         stage ('Deploy') {
