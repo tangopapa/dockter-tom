@@ -25,18 +25,18 @@ ZAP_API_KEY="api_key"
 DX="docker exec -it"
 DXE="docker exec -it -e"
 PROG1="exec lynis audit system remote $1 >> lynis.txt"
-PROG2="/usr/local/bin/nmap <h_ip>"
+PROG2="/usr/local/bin/nmap $1"
 PROG3="brakeman -q </path/to/application> -o output.json -o output"
-PROG4="perl nikto -h <h_ip> -p 80,88,443"
+PROG4="perl nikto -h $1 -p 80,88,443"
 PROG5="export http_proxy=http://localhost:8282; \
-./bin/arachni <http://target-url> --scope-page-limit=0 --checks=*,-common_*,-backup*,-backdoors, \
+./bin/arachni http://$1 --scope-page-limit=0 --checks=*,-common_*,-backup*,-backdoors, \
 -directory_listing --plugin=proxy --audit-jsons --audit-xmls; \
 http_proxy=http://localhost:8282 curl http://arachni.proxy/shutdown; \
-./bin/arachni <http://target-url> --scope-page-limit=0 --checks=*,-common_*,-backup*,-backdoors,-directory_listing \
+./bin/arachni <http://$1 --scope-page-limit=0 --checks=*,-common_*,-backup*,-backdoors,-directory_listing \
  --plugin=vector_feed:yaml_file=vectors.yml"
-PROG6="/opt/sqlmap/sqlmap.py"
-PROG7="/opt/debcheck/dependency-checker.sh <<path/to/file or directory>"
-PROG8="export ZAP_PORT; export ZAP_PATH; export ZAP_API_KEY; zap-cli quick-scan -s xss,sqli --spider -r  <h_ip>"
+PROG6="/opt/sqlmap/sqlmap.py $1"
+PROG7="/opt/debcheck/dependency-checker.sh <path/to/file or directory>"
+PROG8="export ZAP_PORT; export ZAP_PATH; export ZAP_API_KEY; zap-cli quick-scan -s xss,sqli --spider -r $1"
 
 
 ## Functions
