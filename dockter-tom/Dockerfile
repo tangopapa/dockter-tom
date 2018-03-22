@@ -31,6 +31,7 @@ RUN apt-get install -y build-essential \
       libtimedate-perl \
       libnet-ssleay-perl \
       nmap \
+      unzip \
       ruby-bundler && \
       rm -rf /var/lib/apt/lists/*
 
