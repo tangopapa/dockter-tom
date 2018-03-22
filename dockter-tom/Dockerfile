@@ -1,5 +1,5 @@
 FROM debian:stretch-slim
-MAINTAINER tom@frogtownroad.com
+LABEL maintainer="tom@frogtownroad.com"
 
 ENV user=dockter-tom
 RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user} 
@@ -75,7 +75,7 @@ rm -rf /var/lib/apt/lists/* /tmp/*
 USER ${user}
 VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
 WORKDIR /opt/depcheck
-RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
+## RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
 
 
 ## ---- Dynamic Code Analysis  ----
