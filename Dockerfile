@@ -75,9 +75,7 @@ rm -rf /var/lib/apt/lists/* /tmp/*
 USER ${user}
 VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
 WORKDIR /opt/depcheck
-
-CMD ["--help"]
-ENTRYPOINT ["/opt/depcheck/dependency-check/bin/dependency-check.sh"]
+RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
 
 
 ## ---- Dynamic Code Analysis  ----
@@ -92,7 +90,7 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
 
 ## Install Nikto2 -- Nikto2 is an Open Source (GPL) web server scanner 
 ## which performs comprehensive tests against web servers for multiple items
-## Usage: perl nikto.pl -h 192.168.0.1 -p 80,88,443
+## Usage: perl nikto -h 192.168.0.1 -p 80,88,443
 RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
     cd nikto/program                                            && \
     echo "EXECDIR=/opt/nikto/program" >> nikto.conf             && \
@@ -102,9 +100,12 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
 
 ## Install sqlmap -- sqlmap is an open source penetration testing tool 
 ## that automates the process of detecting and exploiting SQL injection flaws.
-## Usage: python sqlmap.py [options]  -- https://github.com/sqlmapproject/sqlmap/wiki/Usage
-ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
-RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
+## Usage: python /opt/sqlmap/sqlmap.py [options]  -- https://github.com/sqlmapproject/sqlmap/wiki/Usage
+RUN mkdir -p /opt/sqlmap && cd /opt/sqlmap                              && \
+    git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git     && \
+    chmod +x sqlmap.py                                                  && \
+    ln -s /opt/sqlmap/sqlmap.py /usr/local/bon/sqlmap.py
+
 
 ## Install dirb -- DIRB is a Web Content Scanner
 ## Usage: ./dirb <url_base> [<wordlist_file(s)>] [options]
@@ -115,8 +116,7 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
     ./configure                                                                     && \
     make                                                                            && \
     ln -s /opt/dirb222/dirb /usr/local/bin/dirb
-
-ENV DIRB_WORDLISTS /opt/dirb222/wordlists
+# ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
 ## Install nmap  -- Network exploration tool and security port scanner -- changed to added during main apt package pull
 ## Usage: nmap [ <Scan Type> ...] [ <Options> ] { <target specification> }
@@ -147,3 +147,5 @@ RUN apt-get install -y unzip                 && \
 ##  Install certificates
 
 ##  VOLUME ["/opt/tp"]
+RUN chmod +x /opt/docker-entrypoint.sh
+ENTRYPOINT ["/opt/docker-entrypoint.sh"]
