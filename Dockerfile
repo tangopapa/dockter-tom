@@ -11,6 +11,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
 RUN apt-get install -y build-essential \
       bzip2 \
+      unzip \
       ca-certificates \
       apt-transport-https \
       curl \
