@@ -147,6 +147,6 @@ RUN apt-get install -y unzip                 && \
 
 VOLUME ["/opt"]
 
-COPY ./docker-entrypoint.sh /
-RUN chmod +x docker-entrypoint.sh
+## COPY ./docker-entrypoint.sh /
+## RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
