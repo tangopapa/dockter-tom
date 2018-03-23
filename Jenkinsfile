@@ -21,23 +21,23 @@ node {
         app2 = docker.build("dockter-j", "./dockter-j")
     }
 
-    // stage('Test image') {
-    //     /* Ideally, we would run a test framework against our image.
-    //      * For this example, we're using a Volkswagen-type approach ;-) */
+    stage('Test image') {
+        /* Ideally, we would run a test framework against our image.
+         * For this example, we're using a Volkswagen-type approach ;-) */
 
-    //     app1.inside {
-    //         sh 'echo "Tests passed"'
-    //     }
-    // }
+        app1.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
 
-    // stage('Test image') {
-    //     /* Ideally, we would run a test framework against our image.
-    //      * For this example, we're using a Volkswagen-type approach ;-) */
+    stage('Test image') {
+        /* Ideally, we would run a test framework against our image.
+         * For this example, we're using a Volkswagen-type approach ;-) */
 
-    //     app2.inside {
-    //         sh 'echo "Tests passed"'
-    //     }
-    // }
+        app2.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
 
 
     stage('Push image') {
