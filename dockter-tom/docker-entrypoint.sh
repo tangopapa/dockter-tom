@@ -115,6 +115,7 @@ do
 	esac
 done < progchoices
 
-
+## Do everything in this .sh script, then in the same shell run the command the user passes in on the command line"
+exec "$@"
 
 
