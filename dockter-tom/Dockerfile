@@ -145,6 +145,8 @@ RUN apt-get install -y unzip                 && \
 ##  docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 ##  Install certificates
 
-##  VOLUME ["/opt/tp"]
+VOLUME ["/opt"]
+
+COPY ./docker-entrypoint.sh /
 RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
