@@ -1,7 +1,7 @@
 all: help
 
 build:
-	@echo "Building docker container..."
+	@echo "Building docker container.."
 	@./build-dockter-tom.sh
 
 clean:

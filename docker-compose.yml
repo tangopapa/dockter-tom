@@ -1,0 +1,35 @@
+version: "1"
+
+services:
+  scanning:
+    image: dockter-tom/dockter-tom
+    ports:
+      - "3363:3363"
+    networks:
+      - scan-net
+    environment:
+    volumes:
+      - dockter-tom_conf:/opt/dt/conf
+      - dockter-tom_data:/opt/dt/data
+
+  db:
+    image: dockter-j/dockter-j
+    ports:
+      - "3364:3364"
+    networks:
+      - scan-net
+    environment:
+    volumes:
+      - dockter-j_conf:/opt/dj/conf
+      - dockter-j_data:/opt/dj/data
+   
+
+networks:
+  scan-net:
+    driver: bridge
+
+volumes:
+  dockter-tom_conf:
+  dockter-tom_data:
+  dockter-j_conf:
+  dockter-j_data:
