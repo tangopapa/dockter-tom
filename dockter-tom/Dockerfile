@@ -69,7 +69,6 @@ mv dependency-check /opt/depcheck                   && \
 chown -R ${user}:${user} /opt/depcheck/dependency-check   && \              
 mkdir -p /opt/depcheck/report                       && \                     
 chown -R ${user}:${user} /opt/depcheck/report       && \                                 
-apt-get remove --purge -y wget                      && \                  
 apt-get autoremove -y                               && \                    
 rm -rf /var/lib/apt/lists/* /tmp/*                  
  
