@@ -72,7 +72,7 @@ chown -R ${user}:${user} /opt/depcheck/report       && \
 apt-get autoremove -y                               && \                    
 rm -rf /var/lib/apt/lists/* /tmp/*                  
  
-USER ${user}
+# USER ${user}
 VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
 WORKDIR /opt/depcheck
 ## RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
