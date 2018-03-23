@@ -101,10 +101,9 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
 ## Install sqlmap -- sqlmap is an open source penetration testing tool 
 ## that automates the process of detecting and exploiting SQL injection flaws.
 ## Usage: python /opt/sqlmap/sqlmap.py [options]  -- https://github.com/sqlmapproject/sqlmap/wiki/Usage
-RUN mkdir -p /opt/sqlmap && cd /opt/sqlmap                              && \
-    git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git     && \
-    chmod +x sqlmap.py                                                  && \
-    ln -s /opt/sqlmap/sqlmap.py /usr/local/bin/sqlmap.py
+WORKDIR /opt
+ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
+RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 
 ## Install dirb -- DIRB is a Web Content Scanner
