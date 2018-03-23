@@ -83,10 +83,10 @@ WORKDIR /opt/depcheck
 ## Install Arachni -- Arachni is a feature-full, modular, high-performance Ruby framework 
 ## aimed towards helping penetration testers and administrators evaluate the security of modern web applications.
 ## Usage:  http://support.arachni-scanner.com/kb/general-use/service-scanning
-RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
-    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
-    mv ${ARACHNI_VERSION} /usr/local && \
-    ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
+## RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
+##    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
+##    mv ${ARACHNI_VERSION} /usr/local && \
+##    ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 ## Install Nikto2 -- Nikto2 is an Open Source (GPL) web server scanner 
 ## which performs comprehensive tests against web servers for multiple items
