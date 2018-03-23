@@ -104,7 +104,7 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
 RUN mkdir -p /opt/sqlmap && cd /opt/sqlmap                              && \
     git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git     && \
     chmod +x sqlmap.py                                                  && \
-    ln -s /opt/sqlmap/sqlmap.py /usr/local/bon/sqlmap.py
+    ln -s /opt/sqlmap/sqlmap.py /usr/local/bin/sqlmap.py
 
 
 ## Install dirb -- DIRB is a Web Content Scanner
