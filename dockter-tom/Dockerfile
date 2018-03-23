@@ -146,5 +146,5 @@ RUN apt-get install -y unzip                 && \
 ##  Install certificates
 
 ##  VOLUME ["/opt/tp"]
-RUN chmod +x /opt/docker-entrypoint.sh
-ENTRYPOINT ["/opt/docker-entrypoint.sh"]
+##  RUN chmod +x /opt/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
