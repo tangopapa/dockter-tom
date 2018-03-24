@@ -149,6 +149,6 @@ RUN apt-get install -y unzip                 && \
 COPY docker-entrypoint.sh /usr/local/bin 
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 CMD ["docker-entrypoint.sh"]
-=======
+
 VOLUME ["/opt"]
 
