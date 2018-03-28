@@ -8,6 +8,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
 RUN apt-get install -y build-essential \
       bzip2 \
+      unzip \
       ca-certificates \
       apt-transport-https \
       curl \
@@ -144,8 +145,9 @@ RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
 ##  docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 ##  Install certificates
 
+COPY docker-entrypoint.sh /usr/local/bin 
+RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
+CMD ["docker-entrypoint.sh"]
+
 VOLUME ["/opt"]
 
-## COPY ./docker-entrypoint.sh /
-## RUN chmod +x docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
