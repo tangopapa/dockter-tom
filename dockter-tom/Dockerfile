@@ -1,9 +1,6 @@
 FROM debian:stretch-slim
 LABEL maintainer="tom@frogtownroad.com"
 
-ENV user=dockter-tom
-RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user} 
-
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 ## Install Ruby and other OS stuff + nmap
@@ -42,8 +39,6 @@ RUN gem install bundle-audit
 RUN gem cleanup
 
 ## ---- Install Scan tools ----
-WORKDIR /opt
-
 ## ---- Static Code Analysis ----
 
 ## Install Brakeman - ruby-on-rails SAST tool w/ Threadfix integration
@@ -74,7 +69,7 @@ rm -rf /var/lib/apt/lists/* /tmp/*
  
 # USER ${user}
 VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
-WORKDIR /opt/depcheck
+## WORKDIR /opt/depcheck
 ## RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
 
 
@@ -123,6 +118,7 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 ## Install ZAproxy -- The OWASP Zed Attack Proxy (ZAP) is an easy to use 
 ## integrated penetration testing tool for finding vulnerabilities in web applications.
 ## Usage: java -jar zap.jar [options]
+## This is likely to be moved to dockter-j
 RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
 
 ## Install Lynis --
@@ -139,6 +135,9 @@ RUN apt-get install -y unzip                 && \
 ## RUN chmod 755 ${PWD} *
 ### To do's -----------------
 
+ENV user=dockter-tom
+RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
+ 
 ##  Install reporting tools
 
 ##  Connect to elk containher
