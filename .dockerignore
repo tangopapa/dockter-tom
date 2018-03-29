@@ -1,0 +1,10 @@
+.git
+.gitignore
+LICENSE
+VERSION
+README.md
+Changelog.md
+Makefile
+*.mk
+docker-compose.yml
+docs
