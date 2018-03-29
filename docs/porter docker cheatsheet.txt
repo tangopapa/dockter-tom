@@ -1,0 +1,227 @@
+By default docker containers run as root
+AWS: service docker start
+
+docker run -d -p 4444:8443 jmbmxer/threadfix 
+
+#######################################################################
+
+If you just want to make some modification to files or inspect processes, here's one another solution you probably want.
+You could run the following command to execute a new process from the existing container:
+docker exec -ti [CONTAINER-ID] bash
+
+##########################################################
+
+##### LIST DISK SPACE USED BY ALL DOCKER COMPONENTS
+docker system df
+
+echo $(docker system df)
+
+####################  CONTAINERS ###########################
+
+#####  ASSIGN A NAME TO A CONTAINER   ########
+docker run -d --name <CONTAINER ID> nameA/nameB
+
+#####  LIST ALL EXITED CONTAINERS
+docker ps -aq -f status=exited	
+
+#####  LIST ACTIVE CONTAINERS
+docker ps -aq
+
+#####  STOP ALL DOCKER CONTAINERS
+docker stop $(docker ps -a -q) 
+
+#####  STOP A SINGLE DOCKER CONTAINER
+docker stop <container ID>
+
+#####  REMOVE ALL CONTAINERS -- AFTER STOPPING ALL
+docker rm $(docker ps -a -q)
+docker rm $(docker ps -qa --no-trunc --filter "status=exited")
+
+##### REMOVE A SINGLE CONTAINER
+docker rm <container ID>
+
+#####  RESTART ONE OR MORE CONTAINERS
+docker restart <CONTAINER_ID>
+
+#####  PURGE ALL UNUSED IMAGES, CONTAINER, VOLUMES, & NETWORKS
+docker system prune
+
+
+################  IMAGES ###################
+
+#####  LIST DOCKER IMAGES
+docker images -a
+docker images -a |  grep "PATTERN"
+
+#####  REMOVE DOCKER IMAGES
+docker rmi <IMAGE>
+docker images -a | grep "PATTERN" | awk '{print $3}' | xargs docker rmi
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc) 2>/dev/null
+
+#####  LIST DANGLING IMAGES
+docker images -f dangling=true
+
+#####  REMOVE DANGLING IMAGES
+docker images purge
+
+#####  PURGE ALL UNUSED IMAGES, CONTAINER, VOLUMES, & NETWORKS
+docker system prune
+
+
+####################### VOLUMES #######################
+
+#####  LIST VOLUMES
+docker volume ls
+
+#####  LIST DANGLING VOLUMES
+docker volume ls -f dangling=true
+
+#####  REMOVE VOLUMES
+
+docker volume rm volume_name volume_n
+docker volume rm `docker volume ls -q -f dangling=true`
+
+
+############### DOCKER NETWORKING ##################
+
+#####  LIST DOCKER NETWORKS
+docker network ls
+
+#####  INSPECT DOCKER NETWORKING
+docker network inspect -f '{{range .Containers}}{{println .Name .IPv4Address}}{{end}}' <NETWORK NAME>
+
+#####  RETURN INFO ABOUT DOCKER NETWORK
+docker network inspect bridge
+
+#####  DELETE ALL DOCKER NETWORKS 
+docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
+
+################   CLEAN SLATE ##############
+
+#####  DELETE EVERY DOCKER CONTAINER
+#####  Must be run first because images are attached to containers
+docker rm -f $(docker ps -a -q)
+
+##### DELETE EVERY DOCKER IMAGE
+docker rmi -f $(docker images -q)
+docker system prune -- FOR GOOD MEASURE
+
+#####  DELETE ALL DOCKER NETWORKS 
+docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
+
+
+################# DOCKER SYSTEM COMMANDS ###################
+
+##### PULL AN IMAGE FROM DOCKER.IO 
+docker pull <IMAGE-NAME>
+
+#####  PULL AN IMAGE FROM A DIFFERENT REPOSITORY
+docker pull <HOSTNAME ie reg.domain.com>/<IMAGE-NAME>
+
+#####  DOCKER EXEC - RUN COMMANDS WITHIN A CONTAINER
+docker exec -it <container_id_or_name> echo "Hello from container!"
+
+#####  START A NEW BASH SHELL IN CONTAINER
+docker exec -it <container_id_or_name> bash
+
+#####  SET AN ENV VARIABLE IN CONTAINER
+docker exec -it -e VAR=1 <container_id_or_name> bash
+
+#####  COPY A FILE FROM CONTAINER TO HOST
+docker cp <CONTAINER ID>:/path/to/container/file host/path/file
+
+#####  DOCKER LOG COMMANDS
+docker log -f <CONTAINER ID>
+
+#####  DOCKER INSPECT - WORKS IF CONTAINER IS STOPPED OR EXITED
+docker inspect <CONTAINER ID> | jq
+
+################## MOVING DOCKER CONTAINERS ###################
+
+NOTE: These docker export does not export the contents of volumes associated with the container 
+
+#####  EXPORT A DOCKER CONTAINER (RUNNING OR PAUSED)
+docker export <CONTAINER ID> -o CONTAINER-NAME.tar
+
+#####  EXPORT A DOCKER image
+docker save -o IMAGE-NAME.tar  <IMAGE-NAME>
+
+#####  IMPORT A DOCKER CONTAINER (OPPOSITE OF EXPORT)
+docker import CONTAINER-NAME.tar
+
+#####  IMPORT A DOCKER IMAGE (OPPOSITE OF SAVE) 
+docker load --input IMAGE-NAME.tar 
+
+
+#####  RUN DOCKER WITHOUT SUDO #############
+
+When you install docker, you have to use sudo to work with docker commands. To avoid using sudo, you need to add your current user to docker group using the following command. Restart the terminal for the changes to take place.
+
+usermod -aG docker ${USER}
+usermod -aG docker ${USER}
+
+Execute the following command if you do not want to restart the terminal:
+newgrp docker
+newgrp docker
+
+Of course, you can also use, "sudo su"
+
+###########  ENABLE DOCKER REST API FOR NET & SOCKETS   #########
+
+Open the file/lib/systemd/system/docker.service, search for ExecStart and add values below.
+
+
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4444 -H unix:///var/run/docker.sock
+
+sudo systemctl daemon-reload
+sudo service docker restart
+
+
+#########################  DOCKER STATS #######################
+
+curl --unix-socket /var/run/docker.sock http:/containers/json | python -m json.tool
+
+STREAMING STATS: curl --unix-socket /var/run/docker.sock http:/containers/8a9973a456b3/stats 
+ONE SHOT: curl --unix-socket /var/run/docker.sock http:/containers/8a9973a456b3/stats?stream=false
+
+
+cAdvisor is a simple server that taps the Docker API and provides one minute of historical data in 1-second increments. It’s a useful way to visualize what’s going on at a high level with your Docker containers on a given host. cAdvisor simply requires one container per host that you’d like to visualize.
+
+sudo docker run \ 
+ --volume=/:/rootfs:ro \ 
+ --volume=/var/run:/var/run:rw \ 
+ --volume=/sys:/sys:ro \ 
+ --volume=/var/lib/docker/:/var/lib/docker:ro \ 
+ --publish=8080:8080 \ 
+ --detach=true \ 
+ --name=cadvisor \ 
+ google/cadvisor:latest
+
+#########################  SHARING A VOLUME #######################
+
+
+Sharing Volumes Between Containers
+It is possible to share the volumes created by one container with another by using the --volumes-from parameter to docker run. For example, say we make a container named 'ContainerA’ that has a volume:
+
+# docker run -i  -v /var/volume1 -name 'ContainerA' -t fedora /bin/bash
+We can share the volumes from this container with another container:
+
+# docker run -i --volumes-from ContainerA -t fedora /bin/bash
+In ContainerB, we will see /var/volume1 from ContainerA. For more information about sharing volumes, please check out the docker documentation
+
+When to Use Volumes
+We recommend that you use volumes in the following use-cases:
+
+You want to be able to share a directory between containers
+You intend on writing large amounts of data to a directory, for example, for a database
+
+
+
+
+
+
+
+
+
+
