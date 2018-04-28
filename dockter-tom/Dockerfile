@@ -136,8 +136,8 @@ RUN apt-get install -y unzip                 && \
 ## RUN chmod 755 ${PWD} *
 ### To do's -----------------
 
-ENV user=dockter-tom
-RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
+#ENV user=dockter-tom
+#RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
  
 ##  Install reporting tools
 
@@ -147,7 +147,7 @@ RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
 
 COPY docker-entrypoint.sh /usr/local/bin 
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
-CMD ["/bin/bash"]
+CMD ["docker-entrypoint.sh"]
 
 VOLUME ["/opt"]
 
