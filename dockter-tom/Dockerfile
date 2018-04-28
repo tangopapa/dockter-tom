@@ -147,7 +147,7 @@ RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
 
 COPY docker-entrypoint.sh /usr/local/bin 
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
-CMD ["docker-entrypoint.sh"]
+CMD ["/bin/bash"]
 
 VOLUME ["/opt"]
 
