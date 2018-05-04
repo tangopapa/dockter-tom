@@ -1,8 +1,6 @@
 FROM debian:stretch-slim
 LABEL maintainer="tom@frogtownroad.com"
 
-ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
-
 ## Install Ruby and other OS stuff + nmap
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
