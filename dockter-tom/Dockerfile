@@ -108,8 +108,8 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 
 ### To do's -----------------
 
-ENV user=dockter-tom
-RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
+#ENV user=dockter-tom
+#RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
  
 ##  Install reporting tools
 
