@@ -68,21 +68,13 @@ chown -R ${user}:${user} /opt/depcheck/report       && \
 apt-get autoremove -y                               && \                    
 rm -rf /var/lib/apt/lists/* /tmp/*                  
  
-# USER ${user}
-VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
+## USER ${user}
+## VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
 ## WORKDIR /opt/depcheck
 ## RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
 
 
 ## ---- Dynamic Code Analysis  ----
-
-## Install Arachni -- Arachni is a feature-full, modular, high-performance Ruby framework 
-## aimed towards helping penetration testers and administrators evaluate the security of modern web applications.
-## Usage:  http://support.arachni-scanner.com/kb/general-use/service-scanning
-## RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
-##    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
-##    mv ${ARACHNI_VERSION} /usr/local && \
-##    ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 ## Install Nikto2 -- Nikto2 is an Open Source (GPL) web server scanner 
 ## which performs comprehensive tests against web servers for multiple items
@@ -116,24 +108,6 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 ## Install nmap  -- Network exploration tool and security port scanner -- changed to added during main apt package pull
 ## Usage: nmap [ <Scan Type> ...] [ <Options> ] { <target specification> }
 
-## Install ZAproxy -- The OWASP Zed Attack Proxy (ZAP) is an easy to use 
-## integrated penetration testing tool for finding vulnerabilities in web applications.
-## Usage: java -jar zap.jar [options]
-## This is likely to be moved to dockter-j
-RUN pip install --upgrade git+https://github.com/Grunny/zap-cli.git
-
-## Install Lynis --
-## Usage: lynis audit system <host_ip>
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F                           && \
-    echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations                                          && \
-    echo "deb https://packages.cisofy.com/community/lynis/deb/ stretch main" |  tee /etc/apt/sources.list.d/cisofy-lynis.list   
-RUN apt update 
-# move unzip to catalog of apt-get packages above
-RUN apt-get install -y unzip                 && \                                                                                      
-    apt install lynis                        && \                                                                                                                                                           
-    rm -rf /var/lib/apt/lists/*
-
-## RUN chmod 755 ${PWD} *
 ### To do's -----------------
 
 ENV user=dockter-tom
