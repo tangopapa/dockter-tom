@@ -2,9 +2,10 @@ FROM debian:stretch-slim
 LABEL maintainer="tom@frogtownroad.com"
 
 ## Install Ruby and other OS stuff + nmap
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends wget ruby mono-runtime  
-RUN apt-get install -y build-essential \
+RUN apt-get update  && \
+apt-get install -y --no-install-recommends wget ruby mono-runtime  && \
+rm -rf /var/lib/apt/lists/*
+RUN apt-get install --no-install-recommends -y build-essential \
       bzip2 \
       unzip \
       ca-certificates \
@@ -122,4 +123,3 @@ RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 CMD ["docker-entrypoint.sh"]
 
 VOLUME ["/opt"]
-
