@@ -3,9 +3,11 @@ LABEL maintainer="tom@frogtownroad.com"
 
 ## Install Ruby and other OS stuff + nmap
 RUN apt-get update  && \
-apt-get install --no-install-recommends -y wget ruby mono-runtime  && \
-rm -rf /var/lib/apt/lists/*
-RUN apt-get install --no-install-recommends -y build-essential \
+apt-get install --no-install-recommends -y 
+      wget \
+      ruby \
+      mono-runtime \
+      build-essential \
       bzip2 \
       unzip \
       ca-certificates \
