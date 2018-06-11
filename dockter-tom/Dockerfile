@@ -3,7 +3,7 @@ LABEL maintainer="tom@frogtownroad.com"
 
 ## Install Ruby and other OS stuff + nmap
 RUN apt-get update  && \
-apt-get install --no-install-recommends -y 
+apt-get install --no-install-recommends -y \
       wget \
       ruby \
       mono-runtime \
