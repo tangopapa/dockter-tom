@@ -44,9 +44,9 @@ RUN gem install ffi -v 1.9.18               && \
     gem cleanup
 
 ## Add directory at ./**/*.attack_files relative to gauntlt executable
-RUN mkdir -p /opt/attack                    && \
+RUN mkdir -p /opt/attack                    
 ## Upload attack files to attack directory
-cp ../attacks/*.attack /opt/attack
+COPY ../attacks/*.attack /opt/attack
 
 ## ---- Install Scan tools ----
 ## ---- Static Code Analysis ----
