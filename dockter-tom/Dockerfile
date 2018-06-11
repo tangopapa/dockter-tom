@@ -1,6 +1,9 @@
 FROM debian:stretch-slim
 LABEL maintainer="tom@frogtownroad.com"
 
+#ENV user=dockter-tom
+#RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
+
 ## Install Ruby and other OS stuff + nmap
 RUN apt-get update  && \
 apt-get install --no-install-recommends -y \
@@ -35,10 +38,15 @@ apt-get install --no-install-recommends -y \
       rm -rf /var/lib/apt/lists/*
 
 ## Install Gauntlt --  Cucumber/gherkin framework with some reporting capability
-RUN gem install ffi -v 1.9.18
-RUN gem install gauntlt --no-rdoc --no-ri
-RUN gem install bundle-audit 
-RUN gem cleanup
+RUN gem install ffi -v 1.9.18               && \
+    gem install gauntlt --no-rdoc --no-ri   && \
+    gem install bundle-audit                && \
+    gem cleanup
+
+## Add directory at ./**/*.attack_files relative to gauntlt executable
+RUN mkdir -p /opt/attack                    && \
+## Upload attack files to attack directory
+cp /attacks/*.attack /opt/attack
 
 ## ---- Install Scan tools ----
 ## ---- Static Code Analysis ----
@@ -111,9 +119,6 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 
 ### To do's -----------------
 
-#ENV user=dockter-tom
-#RUN groupadd -r ${user} && useradd -r -l -M ${user} -g ${user}
- 
 ##  Install reporting tools
 
 ##  Connect to elk containher
