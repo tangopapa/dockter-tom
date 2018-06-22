@@ -98,7 +98,7 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
 ## Install sqlmap -- sqlmap is an open source penetration testing tool 
 ## that automates the process of detecting and exploiting SQL injection flaws.
 ## Usage: python /opt/sqlmap/sqlmap.py [options]  -- https://github.com/sqlmapproject/sqlmap/wiki/Usage
-WORKDIR /opt
+
 ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
@@ -125,8 +125,12 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 ##  docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 ##  Install certificates
 
+WORKDIR /opt
+
 COPY docker-entrypoint.sh /usr/local/bin 
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
-CMD ["docker-entrypoint.sh"]
 
-VOLUME ["/opt"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["nmap"]
+
+
