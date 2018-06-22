@@ -22,7 +22,7 @@ CMD=$1
 function nmap { $PROG1; }
 
 #PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' '/opt/sqlmap/sqlmap.py localhost' " >> /opt/results
-PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost >> /opt/results"
+PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost >> /opt/results; sleep infinity"
 
 
 
