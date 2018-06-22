@@ -131,6 +131,6 @@ COPY docker-entrypoint.sh /usr/local/bin
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["nmap"]
+CMD ["PROG1"]
 
 

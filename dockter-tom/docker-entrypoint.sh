@@ -19,44 +19,8 @@ try() { "$@" || die "cannot $*"; }
 # $2 $3, $4, $5 are our command line arguments
 CMD=$1
 
-# Trap CTRL+C, CTRL+Z and quit 
-# trap '' SIGINT SIGQUIT SIGTSTP
+PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' '/opt/sqlmap/sqlmap.py localhost' " >> /opt/results
 
-## Define variables
-
-DX="docker exec -it"
-DXE="docker exec -it -e"
-PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' '/opt/sqlmap/sqlmap.py localhost' "
-PROG2="brakeman -q </path/to/application> -o output.json -o output"
-PROG3="perl nikto -h localhost -p 80,88,443"
-PROG4="/opt/sqlmap/sqlmap.py $1"
-PROG5="/opt/debcheck/dependency-checker.sh <path/to/file or directory>"
-
-
-## Functions
-function nmap { $PROG1 }
-#function brakeman { true; }
-function nikto2 { $PROG3 }
-#function sqlmap { true; }
-#function OWASPdc { true; }
-
-case "$CMD" in
-  "nmap" )
-    exec nmap
-    ;;
-
-  "nikto2" )
-    # we can modify files here, using ENV variables passed in 
-    # "docker create" command. It can't be done during build process.
-    exec nikto2
-    ;;
-
-   * )
-    # Run custom command. Thanks to this line we can still use 
-    # "docker run our_image /bin/bash" and it will work
-    exec $CMD ${@:2}
-    ;;
-esac
 
 
 
