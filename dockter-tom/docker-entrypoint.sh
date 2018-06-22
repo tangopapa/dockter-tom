@@ -26,7 +26,7 @@ CMD=$1
 
 DX="docker exec -it"
 DXE="docker exec -it -e"
-PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' /opt/sqlmap/sqlmap.py localhost "
+PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' '/opt/sqlmap/sqlmap.py localhost' "
 PROG2="brakeman -q </path/to/application> -o output.json -o output"
 PROG3="perl nikto -h localhost -p 80,88,443"
 PROG4="/opt/sqlmap/sqlmap.py $1"
