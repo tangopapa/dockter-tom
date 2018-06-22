@@ -43,6 +43,6 @@ nikto2
 
 
 ## Do everything in this .sh script, then in the same shell run the command the user passes in on the command line"
-CMD ["/bin/bash"]
+/bin/bash
 
 
