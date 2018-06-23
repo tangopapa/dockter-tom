@@ -58,6 +58,8 @@ RUN gem install brakeman
 
 ## ---- Dynamic Code Analysis  ----
 
+WORKDIR /opt
+
 ## Install Nikto2 -- Nikto2 is an Open Source (GPL) web server scanner 
 ## which performs comprehensive tests against web servers for multiple items
 ## Usage: perl nikto -h 192.168.0.1 -p 80,88,443
@@ -72,9 +74,8 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
 ## that automates the process of detecting and exploiting SQL injection flaws.
 ## Usage: python /opt/sqlmap/sqlmap.py [options]  -- https://github.com/sqlmapproject/sqlmap/wiki/Usage
 
-ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git && \
-chmod +x sqlmap.py && \
+chmod +x sqlmap/sqlmap.py && \
 ln -s /opt/sqlmap/sqlmap.py /usr/local/bin/sqlmap
 
 
@@ -100,8 +101,6 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 ##  Connect to elk containher
 ##  docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 ##  Install certificates
-
-WORKDIR /opt
 
 ## Add supervisord.conf to startup executables
 COPY ./supervisord.conf /opt/supervisord.conf
