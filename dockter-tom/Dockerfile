@@ -130,7 +130,7 @@ WORKDIR /opt
 COPY docker-entrypoint.sh /usr/local/bin 
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 
-#ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/usr/local/bin/nmap -p80, 443, 3306 localhost; sleep infinity"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["nmap"]
 
 
