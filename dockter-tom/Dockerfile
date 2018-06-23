@@ -6,14 +6,14 @@ LABEL maintainer="tom@frogtownroad.com"
 
 ## Install Ruby and other OS stuff + nmap
 RUN apt-get update  && \
-apt-get install --no-install-recommends -y \
+apt-get install supervisor
+RUN apt-get install --no-install-recommends -y \
       wget \
       ruby \
       mono-runtime \
       build-essential \
       bzip2 \
       unzip \
-      ca-certificates \
       apt-transport-https \
       curl \
       gcc \
@@ -35,7 +35,6 @@ apt-get install --no-install-recommends -y \
       nmap \
       unzip \
       ruby-bundler && \
-      supervisor && \
       rm -rf /var/lib/apt/lists/*
 
 ## Install Gauntlt --  Cucumber/gherkin framework with some reporting capability
