@@ -1,4 +1,4 @@
-FROM debian:stretch-slim-9.4
+FROM debian:stretch-slim
 LABEL maintainer="tom@frogtownroad.com"
 
 #ENV user=dockter-tom
