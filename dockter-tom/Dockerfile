@@ -35,7 +35,6 @@ apt-get install --no-install-recommends -y \
       nmap \
       unzip \
       ruby-bundler && \
-      sshd && \
       supervisor && \
       rm -rf /var/lib/apt/lists/*
 
