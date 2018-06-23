@@ -35,6 +35,8 @@ apt-get install --no-install-recommends -y \
       nmap \
       unzip \
       ruby-bundler && \
+      sshd && \
+      supervisor && \
       rm -rf /var/lib/apt/lists/*
 
 ## Install Gauntlt --  Cucumber/gherkin framework with some reporting capability
@@ -54,33 +56,6 @@ COPY attacks/*.attack /opt/attack/
 ## Install Brakeman - ruby-on-rails SAST tool w/ Threadfix integration
 ## Usage: brakeman -q /path/to/application -o output.json -o output
 RUN gem install brakeman
-
-## Install OWASP Dependency Check -- Dependency-Check is a utility that attempts to detect 
-## publicly disclosed vulnerabilities contained within project dependencies. 
-## It does this by determining if there is a Common Platform Enumeration (CPE) identifier for a given dependency. 
-## If found, it will generate a report linking to the associated CVE entries.
-## Usage:  As Sonarqube plugin???
-ENV version_url=https://jeremylong.github.io/DependencyCheck/current.txt
-ENV download_url=https://dl.bintray.com/jeremy-long/owasp 
-
-RUN wget -O /tmp/current.txt ${version_url}         && \                         
-version=$(cat /tmp/current.txt)                     && \                               
-file="dependency-check-${version}-release.zip"      && \                    
-wget "$download_url/$file"                          && \                     
-unzip ${file}                                       && \                    
-rm -f ${file}                                       && \                           
-mkdir -p /opt/depcheck                              && \                           
-mv dependency-check /opt/depcheck                   && \                    
-chown -R ${user}:${user} /opt/depcheck/dependency-check   && \              
-mkdir -p /opt/depcheck/report                       && \                     
-chown -R ${user}:${user} /opt/depcheck/report       && \                                 
-apt-get autoremove -y                               && \                    
-rm -rf /var/lib/apt/lists/* /tmp/*                  
- 
-## USER ${user}
-## VOLUME ["/opt/depcheck" "opt/depcheck/dependency-check/data" "/report"]
-## WORKDIR /opt/depcheck
-## RUN /opt/depcheck/dependency-check/bin/dependency-check.sh
 
 
 ## ---- Dynamic Code Analysis  ----
@@ -127,10 +102,13 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
 
 WORKDIR /opt
 
-COPY docker-entrypoint.sh /usr/local/bin 
-RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
+## Add supervisord.conf to startup executables
+COPY ./supervisord.conf /opt/supervisord.conf
 
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["start"]
+#COPY docker-entrypoint.sh /usr/local/bin 
+#RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
+
+#ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/bin/supervisord","--configuration=/opt/supervisord.conf"]
 
 
