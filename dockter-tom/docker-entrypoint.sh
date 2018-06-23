@@ -19,8 +19,8 @@ try() { "$@" || die "cannot $*"; }
 # $2 $3, $4, $5 are our command line arguments
 CMD=$1
 
-function nmap { "/usr/local/bin/nmap -p80, 443, 3306 localhost >> /opt/results; sleep infinity"; }
-function start { "/bin/bash"; }
+function nmap { "exec /usr/local/bin/nmap -p80, 443, 3306 localhost >> /opt/results; sleep infinity"; }
+function start { "exec /bin/bash"; }
 
 #PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost -oG - tee 'perl nikto -h' '/opt/sqlmap/sqlmap.py localhost' " >> /opt/results
 #PROG1="/usr/local/bin/nmap -p80, 443, 3306 localhost >> /opt/results; sleep infinity"
