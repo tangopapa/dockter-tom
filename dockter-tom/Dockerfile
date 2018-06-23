@@ -88,8 +88,9 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
     chmod 755 ./configure                                                           && \
     ./configure                                                                     && \
     make                                                                            && \
-    ln -s /opt/dirb222/dirb /usr/local/bin/dirb
-# ENV DIRB_WORDLISTS /opt/dirb222/wordlists
+    ln -s /opt/dirb222/dirb /usr/local/bin/dirb                                     && \
+    rm -rf dirb222.tar*
+ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
 ## Install nmap  -- Network exploration tool and security port scanner -- changed to added during main apt package pull
 ## Usage: nmap [ <Scan Type> ...] [ <Options> ] { <target specification> }
