@@ -68,7 +68,7 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git      && \
     echo "EXECDIR=/opt/nikto/program" >> nikto.conf             && \
     ln -s /opt/nikto/program/nikto.conf /etc/nikto.conf         && \
     chmod +x nikto.pl                                           && \
-    ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto
+    ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto.pl
 
 ## Install sqlmap -- sqlmap is an open source penetration testing tool 
 ## that automates the process of detecting and exploiting SQL injection flaws.
