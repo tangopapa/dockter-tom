@@ -8,6 +8,8 @@ LABEL maintainer="tom@frogtownroad.com"
 RUN apt-get update  && \
     apt-get install --no-install-recommends -y \
       supervisor \
+      ## troubleshooting
+      tree \  
       wget \
       ruby \
       build-essential \
@@ -32,9 +34,7 @@ RUN apt-get update  && \
       libnet-ssleay-perl \
       nmap \
       unzip \
-      ruby-bundler \
-      ## troubleshooting
-      tree && \  
+      ruby-bundler && \
       rm -rf /var/lib/apt/lists/*
 
 ## Install Gauntlt --  Cucumber/gherkin framework with some reporting capability
