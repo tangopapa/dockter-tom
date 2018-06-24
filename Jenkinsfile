@@ -33,7 +33,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app1.inside {
-            // gegin testing
+            // begin testing
             sh 'echo "Tests passed"'
         }
     }
