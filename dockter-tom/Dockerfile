@@ -35,7 +35,6 @@ RUN apt-get update  && \
       ruby-bundler \
       ## troubleshooting
       tree && \  
-      ## troubleshooting   
       rm -rf /var/lib/apt/lists/*
 
 ## Install Gauntlt --  Cucumber/gherkin framework with some reporting capability
